@@ -1,3 +1,5 @@
+const SeedData = require("../seedData/seedData");
+
 const inventoryService = {
   fetchStoreInventoryHealth(storeId) {
     return {
@@ -5,6 +7,10 @@ const inventoryService = {
       status: "HEALTHY",
       message: "Store inventory is healthy",
     };
+  },
+
+  findStoreById(storeId) {
+    return SeedData.stores.find(store => store.storeId === storeId);
   },
 };
 
