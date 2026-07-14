@@ -24,11 +24,11 @@ Living notes for pairing prep. Add items as you find them. Prefer facts over spe
 
 | ID | Status | Type | Location | Issue | Notes |
 | ---- | ------ | ---- | -------- | ----- | ----- |
-| C1 | open | bug | [`cartService.js`](src/services/cartService.js) `fetchCartForUser` | No null-check on `user` | Unknown user → `Cannot read properties of null (reading 'userId')` (500) |
-| C2 | open | bug | [`cartService.js`](src/services/cartService.js) `addProductToCartForUser` | No guard if user, cart, or product is missing | Can throw when pushing onto undefined cart or product |
-| C3 | open | smell | [`cartService.js`](src/services/cartService.js) | No quantity handling | Test body includes `quantity: 2` but service always `push`es one product |
-| C4 | open | smell | [`domain/cart.js`](src/domain/cart.js) | Cart has no totals, line items, or quantity | Only a flat `products[]` |
-| C5 | partial | smell | Controllers | Cart controllers still always `200` | Inventory controller now returns `400` / `404`; cart does not |
+| C1 | fixed | bug | [`cartService.js`](src/services/cartService.js) `getCartForUser` | No null-check on `user` before Map lookup | `getCartForUser` now returns `null` if user missing; `fetchCartForUser` uses `?? null` |
+| C2 | fixed | bug | [`cartService.js`](src/services/cartService.js) `addProductToCartForUser` | No guard if user, cart, or product is missing | Guards + `error.status`; note: not-found uses 400 (often 404 in APIs) |
+| C3 | fixed | smell | [`cartService.js`](src/services/cartService.js) | No quantity handling | Now pushes `CartItem` with `quantity ?? 1` (+ validation) |
+| C4 | partial | smell | [`domain/cart.js`](src/domain/cart.js) | Flat `products[]` / no totals | `items` + `totalPrice` done; merge-same-product on re-add still open |
+| C5 | partial | smell | Controllers | Error HTTP mapping incomplete | `addProductToCart` try/catch → `error.status`; `viewCart` still 200 when cart/user is `null` (no 404) |
 
 ---
 
@@ -60,7 +60,7 @@ Living notes for pairing prep. Add items as you find them. Prefer facts over spe
 
 | ID | Status | Type | Location | Issue | Notes |
 | ---- | ------ | ---- | -------- | ----- | ----- |
-| P1 | open | smell | [`productService.js`](src/services/productService.js) | Returns `undefined` when not found; callers don’t handle it | |
+| P1 | partial | smell | [`productService.js`](src/services/productService.js) | Returns `undefined` when not found | `cartService` now guards; other callers may still not |
 | P2 | open | smell | Seed products | All products on `store101` only | No inventory for `store102` |
 | P3 | open | docs | README sample response | Example shows `product103` / Crackers for an add of `product101` | Sample may be stale/wrong |
 
@@ -81,3 +81,6 @@ Living notes for pairing prep. Add items as you find them. Prefer facts over spe
 | 2026-07-12 | Initial list from README walkthrough + cart/view `user102` investigation |
 | 2026-07-14 | Marked S1–S3, S5 fixed; I1/I2/C5 partial-wip; added I5–I7 from inventory work in progress |
 | 2026-07-14 | Marked S4 fixed — `createStore` accepts per-store description |
+| 2026-07-14 | Marked C1–C2 fixed (cart service guards); C5 notes cart controller still not mapping errors |
+| 2026-07-15 | Marked C3 fixed, C4/P1 partial — CartItem + quantity on cart service |
+| 2026-07-15 | C4/C5 notes updated — totalPrice + addProduct error mapping; viewCart 404 still open |
