@@ -1,12 +1,16 @@
 const SeedData = require("../seedData/seedData");
+const cartService = require("./cartService");
 
 const inventoryService = {
   fetchStoreInventoryHealth(storeId) {
-    return {
-      storeId: storeId,
-      status: "HEALTHY",
-      message: "Store inventory is healthy",
-    };
+
+    const store = this.findStoreById(storeId);
+    if (!store) {
+      throw new Error("Store not found");
+    }
+
+    const inventoryHealth = cartService.calculateInventoryHealth(store);
+    return inventoryHealth;
   },
 
   findStoreById(storeId) {

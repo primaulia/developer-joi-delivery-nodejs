@@ -8,8 +8,8 @@ class SeedData {
     return new Cart(cartId, SeedData.store101, user);
   }
 
-  static createStore(outletName, storeId) {
-    return new GroceryStore(outletName, "Premium grocery store", storeId);
+  static createStore(outletName, description, storeId) {
+    return new GroceryStore(outletName, description, storeId);
   }
 
   static createUser(userId, firstName, lastName) {
@@ -48,8 +48,8 @@ class SeedData {
   }
 }
 
-SeedData.store101 = SeedData.createStore("Fresh Picks", "store101");
-SeedData.store102 = SeedData.createStore("Natural Choice", "store102");
+SeedData.store101 = SeedData.createStore("Fresh Picks", "Best mart with freshest products", "store101");
+SeedData.store102 = SeedData.createStore("Natural Choice", "Natural choice with the best organic products", "store102");
 SeedData.user101 = SeedData.createUser("user101", "John", "Doe");
 SeedData.user102 = SeedData.createUser("user102", "Rachel", "Zane");
 

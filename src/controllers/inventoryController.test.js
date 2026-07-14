@@ -1,4 +1,5 @@
 const inventoryController = require("./inventoryController");
+const inventoryService = require("../services/inventoryService");
 
 jest.mock("../services/inventoryService");
 
@@ -69,7 +70,7 @@ describe("InventoryController", () => {
     });
 
     it("should return an error if storeId doesn't exist", () => {
-      const inventoryService = require("../services/inventoryService"); 
+       
       const storeId = "store777";
 
       mockReq.query.storeId = storeId;
