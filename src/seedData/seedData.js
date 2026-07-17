@@ -50,6 +50,14 @@ class SeedData {
 
 SeedData.store101 = SeedData.createStore("Fresh Picks", "Best mart with freshest products", "store101");
 SeedData.store102 = SeedData.createStore("Natural Choice", "Natural choice with the best organic products", "store102");
+
+SeedData.store101.inventory.add(SeedData.createGroceryProduct("Wheat Bread", "product101", SeedData.store101));
+SeedData.store101.inventory.add(SeedData.createGroceryProduct("Spinach", "product102", SeedData.store101));
+SeedData.store101.inventory.add(SeedData.createGroceryProduct("Crackers", "product103", SeedData.store101));
+
+SeedData.store102.inventory.add(SeedData.createGroceryProduct("Wheat Bread", "product101", SeedData.store102));
+SeedData.store102.inventory.add(SeedData.createGroceryProduct("Spinach", "product102", SeedData.store102));
+
 SeedData.user101 = SeedData.createUser("user101", "John", "Doe");
 SeedData.user102 = SeedData.createUser("user102", "Rachel", "Zane");
 

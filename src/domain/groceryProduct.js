@@ -39,6 +39,14 @@ class GroceryProduct extends Product {
     /** @type {number} */
     this.discount = discount;
   }
+
+  isLowStock() {
+    return this.availableStock < this.threshold;
+  }
+
+  isEmptyStock() {
+    return this.availableStock <= 0;
+  }
 }
 
 module.exports = GroceryProduct;

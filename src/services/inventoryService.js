@@ -1,5 +1,4 @@
 const SeedData = require("../seedData/seedData");
-const cartService = require("./cartService");
 
 const inventoryService = {
   fetchStoreInventoryHealth(storeId) {
@@ -9,13 +8,26 @@ const inventoryService = {
       throw new Error("Store not found");
     }
 
-    const inventoryHealth = cartService.calculateInventoryHealth(store);
-    return inventoryHealth;
+    const inventoryHealth = this.calculateInventoryHealth(store);
+    return {
+      storeId: store.outletId,
+      products: inventoryHealth,
+    };
   },
 
   findStoreById(storeId) {
-    return SeedData.stores.find(store => store.storeId === storeId);
+    return SeedData.stores.find(store => store.outletId === storeId);
   },
+
+  calculateInventoryHealth(store) {
+    return Array.from(store.inventory.values()).map(product => ({
+      productId: product.productId,
+      productName: product.productName,
+      availableStock: product.availableStock,
+      threshold: product.threshold,
+      status: product.isEmptyStock() ? 'EMPTY' : product.isLowStock() ? 'LOW' : 'HEALTHY',
+    }));
+  }
 };
 
 module.exports = inventoryService;

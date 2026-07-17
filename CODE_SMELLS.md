@@ -8,6 +8,30 @@ Living notes for pairing prep. Add items as you find them. Prefer facts over spe
 
 ---
 
+## Progress snapshot (as of 2026-07-15)
+
+### Done
+
+- **Seed (S1–S5):** users/stores wiring, `createCartForUser(user)`, per-store descriptions, `SeedData.stores`
+- **Cart service + tests:** guards, `CartItem` + quantity, `totalPrice`, validation throws with `error.status`
+- **Cart controller:** try/catch maps service errors to HTTP for `addProduct`; qty 400 tests
+- **Inventory controller + tests:** `storeId` required (400), store missing (404), happy path mocked (200)
+
+### Pause cart here
+
+- C4 leftover: merge same product on re-add (optional)
+- C5 leftover: `viewCart` → 404 when null (optional)
+
+### Next session — inventory health (primary pairing story)
+
+1. Fix `findStoreById` → compare `outletId` (I5)
+2. Remove `cartService.calculateInventoryHealth` (I6); implement health in `inventoryService`
+3. Filter `SeedData.groceryProducts` by store; status from `availableStock` vs `threshold` (I7)
+4. Add `inventoryService.test.js` (TDD); then Postman `GET /inventory/health?storeId=store101`
+5. Align README `storeid` → `storeId` (I3)
+
+---
+
 ## Seed & users
 
 | ID | Status | Type | Location | Issue | Notes |
@@ -84,3 +108,4 @@ Living notes for pairing prep. Add items as you find them. Prefer facts over spe
 | 2026-07-14 | Marked C1–C2 fixed (cart service guards); C5 notes cart controller still not mapping errors |
 | 2026-07-15 | Marked C3 fixed, C4/P1 partial — CartItem + quantity on cart service |
 | 2026-07-15 | C4/C5 notes updated — totalPrice + addProduct error mapping; viewCart 404 still open |
+| 2026-07-15 | Progress snapshot: cart paused; next = inventory service (I5–I7) + service tests |
